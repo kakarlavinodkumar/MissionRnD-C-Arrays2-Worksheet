@@ -12,7 +12,31 @@ ERROR CASES: Return -1 for invalid inputs.
 
 NOTES:
 */
-
+#include<malloc.h>
 int findSingleOccurenceNumber(int *A, int len) {
+	int index, index1, count;
+	bool *status;
+	status = (bool*)malloc(sizeof(bool)*len);
+	for (index = 0; index < len; index++)
+		status[index] = 0;
+	if (A)
+	{
+		for (index = 0; index < len; index++)
+		{
+			if (status[index] == 0)
+			{
+				for (index1 = index + 1, count = 1, status[index] = 1; index1 < len; index1++)
+				{	
+					if (A[index] == A[index1])
+					{
+						count++;
+						status[index1] = 1;
+					}
+				}
+				if (count == 1)
+					return A[index];
+			}
+		}
+	}
 	return -1;
 }

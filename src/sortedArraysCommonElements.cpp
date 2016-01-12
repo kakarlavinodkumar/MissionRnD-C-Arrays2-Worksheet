@@ -23,5 +23,33 @@ struct transaction {
 };
 
 struct transaction * sortedArraysCommonElements(struct transaction *A, int ALen, struct transaction *B, int BLen) {
+	int index1, index2, year[2], month[2], date1[2],index;
+	struct transaction *res;
+	res = (struct transaction*)malloc(sizeof(struct transaction)*(ALen < BLen ? ALen : BLen));
+	if (A&&B)
+	{
+		for (index = index1 = index2 = 0; index1 < ALen&&index2 < BLen;)
+		{
+			year[0] = (A[index1].date[6] - '0') * 1000 + (A[index1].date[7] - '0') * 100 + (A[index1].date[8] - '0') * 10 + A[index1].date[9] - '0';
+			month[0] = ((A[index1].date[3] - '0') * 10 + A[index1].date[4] - '0');
+			date1[0] = (A[index1].date[0] - '0') * 10 + A[index1].date[1] - '0';
+			year[1] = (B[index2].date[6] - '0') * 1000 + (B[index2].date[7] - '0') * 100 + (B[index2].date[8] - '0') * 10 + B[index2].date[9] - '0';
+			month[1] = ((B[index2].date[3] - '0') * 10 + B[index2].date[4] - '0');
+			date1[1] = (B[index2].date[0] - '0') * 10 + B[index2].date[1] - '0';
+			if (year[0] == year[1] && month[0] == month[1] && date1[0] == date1[1])
+			{
+				res[index++] = A[index1];
+				index1++;
+				index2++;
+			}
+			else if (year[0] < year[1] || (year[0] == year[1] && month[0] < month[1]) || (year[0] == year[1] && month[0] == month[1] && date1[0] < date1[1]))
+				index1++;
+			else
+				index2++;
+		}
+		if (index == 0)
+			return NULL;
+		return res;
+	}
 	return NULL;
 }
